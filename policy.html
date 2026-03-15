@@ -455,13 +455,13 @@
         <h2 class="section-title">I've got you covered.</h2>
         <p class="section-body">Found a bug, have a question, or want to suggest a feature? Reach out directly — I read and respond to every message personally.</p>
         <p class="section-body">MacroMate is independently built and maintained by one person.</p>
-        <a href="/cdn-cgi/l/email-protection#aac9c5c4decbc9de84cbd8c3d9cf84cbdadaeacdc7cbc3c684c9c5c7" class="contact-card">
+        <a href="mailto:contact.arise.app@gmail.com" class="contact-card">
           <div class="contact-icon">
             <svg fill="none" viewBox="0 0 24 24" stroke="#E07A5F" stroke-width="1.8"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           </div>
           <div>
             <div class="contact-text-label">Email</div>
-            <div class="contact-text-email"><span class="__cf_email__" data-cfemail="395a56574d585a4d17584b504a5c17584949795e54585055175a5654">[email&#160;protected]</span></div>
+            <div class="contact-text-email">contact.arise.app@gmail.com</div>
           </div>
         </a>
         <div class="response-note">
@@ -587,18 +587,14 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(el => observer.observe(el));
-
+  <script>
     document.querySelectorAll('.faq-question').forEach(btn => {
       btn.addEventListener('click', () => {
-        const item = btn.clos
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script></body>
+</html>
