@@ -1,623 +1,600 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Morpha · See the change the scale can't</title>
-<meta name="description" content="Morpha turns a weekly front, side and back check-in into a clear picture of your physique progress, with weight, body fat and lean mass trends.">
-<meta name="theme-color" content="#0D0B0A">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<style>
-body{margin:0;background:#0D0B0A}
-a{color:#FFA040}a:hover{color:#FFC27F}
-*{box-sizing:border-box}
-.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
-.disp{font-family:'Anton',Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.5px;line-height:.95;margin:0}
-.grad{background:linear-gradient(180deg,#FFA040,#E0610F);-webkit-background-clip:text;background-clip:text;color:transparent}
-.eyebrow{font-size:13px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:#FFA040;margin:0}
-.lead{font-size:18px;line-height:1.6;color:#B5A797;margin:0}
-.card{background:#16120F;border:1px solid #2A231D;border-radius:24px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font-weight:800;font-size:16px;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
-.btn-p{background:linear-gradient(180deg,#FFA040,#E0610F);color:#1A0E04;box-shadow:0 10px 30px rgba(224,97,15,.35)}
-.btn-p:hover{color:#1A0E04;transform:translateY(-2px);box-shadow:0 16px 40px rgba(224,97,15,.5)}
-.btn-g{border:1px solid #3A3029;color:#F4EDE6}
-.btn-g:hover{color:#F4EDE6;border-color:#FFA040}
-.navlink{color:#B5A797;text-decoration:none;font-weight:600;font-size:15px}
-.navlink:hover{color:#F4EDE6}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>MacroMate — Athlete Nutrition Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --coral:   #E07A5F;
+      --teal:    #4ECDC4;
+      --yellow:  #E8C97A;
+      --pink:    #E07A8A;
+      --blue:    #6EB5FF;
+      --bg:      #141210;
+      --bg2:     #1C1A17;
+      --surface: #222018;
+      --border:  rgba(255,255,255,0.07);
+      --text:    #F2EDE8;
+      --muted:   #7A746E;
+    }
 
-/* hero grid */
-.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}
-@media (max-width:920px){.hero{grid-template-columns:minmax(0,1fr)}.navlinks{display:none!important}}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-/* physique scan */
-.fig-before{opacity:0;animation:figB 7s ease-in-out infinite}
-.fig-after{animation:figA 7s ease-in-out infinite}
-@keyframes figB{0%,8%{opacity:1}42%,92%{opacity:0}100%{opacity:1}}
-@keyframes figA{0%,8%{opacity:0}42%,92%{opacity:1}100%{opacity:0}}
-.scanline{animation:scan 3.5s cubic-bezier(.5,0,.5,1) infinite}
-@keyframes scan{0%{transform:translateY(-10%);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(560%);opacity:0}}
-.joint{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-in-out infinite}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.8);opacity:.35}}
-.bob{animation:bob 5s ease-in-out infinite}
-.bob2{animation:bob 6s ease-in-out -2s infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.ring{animation:spin 22s linear infinite;transform-origin:center}
-@keyframes spin{to{transform:rotate(360deg)}}
-.draw{stroke-dasharray:700;stroke-dashoffset:700;animation:draw 4.5s ease-out infinite}
-@keyframes draw{0%{stroke-dashoffset:700}55%,100%{stroke-dashoffset:0}}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-/* marquee */
-.marq{display:flex;gap:48px;width:max-content;animation:marq 28s linear infinite}
-@keyframes marq{to{transform:translateX(-50%)}}
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.03; pointer-events: none; z-index: 999;
+    }
 
-/* barbell */
-.bar{animation:press 4s ease-in-out infinite}
-@keyframes press{0%,30%{transform:translateY(0)}55%,70%{transform:translateY(-34px)}100%{transform:translateY(0)}}
-.plateL{animation:plL 4s cubic-bezier(.2,.8,.2,1) infinite}
-.plateR{animation:plR 4s cubic-bezier(.2,.8,.2,1) infinite}
-.d1{animation-delay:-.0s}.d2{animation-delay:-.12s}
-@keyframes plL{0%{transform:translateX(-120px);opacity:0}18%,88%{transform:translateX(0);opacity:1}100%{transform:translateX(-120px);opacity:0}}
-@keyframes plR{0%{transform:translateX(120px);opacity:0}18%,88%{transform:translateX(0);opacity:1}100%{transform:translateX(120px);opacity:0}}
+    .glow-tl {
+      position: fixed; top: -180px; left: -180px;
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(224,122,95,0.12) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .glow-br {
+      position: fixed; bottom: -180px; right: -180px;
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, rgba(78,205,196,0.06) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
 
-/* step tiles */
-.tile{animation:tileIn 6s ease-in-out infinite}
-.t2{animation-delay:.6s}.t3{animation-delay:1.2s}
-@keyframes tileIn{0%{opacity:.15;transform:translateY(10px) scale(.96)}12%,80%{opacity:1;transform:none}100%{opacity:.15;transform:translateY(10px) scale(.96)}}
-.flow{stroke-dasharray:6 8;animation:flow 1s linear infinite}
-@keyframes flow{to{stroke-dashoffset:-14}}
-.heart{transform-box:fill-box;transform-origin:center;animation:beat 1.4s ease-in-out infinite}
-@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+    .container {
+      position: relative; z-index: 1;
+      max-width: 740px; margin: 0 auto; padding: 0 24px;
+    }
 
-/* film strip */
-.strip{display:flex;gap:8px;width:max-content;animation:marq 12s linear infinite}
+    /* ── Nav ───────────────────────────────── */
+    nav { position: relative; z-index: 10; padding: 28px 0 0; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .wordmark {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.25rem; color: var(--coral); letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; color: var(--muted); text-decoration: none;
+      font-weight: 400; letter-spacing: 0.02em; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
 
-/* streak blocks */
-.blk{height:28px;border-radius:7px;background:#2A231D;animation:fill 6s ease-in-out infinite}
-@keyframes fill{0%,5%{background:#2A231D}15%,85%{background:#F07A22}100%{background:#2A231D}}
+    /* ── Hero ──────────────────────────────── */
+    .hero { padding: 90px 0 80px; text-align: center; }
 
-/* lock */
-.shackle{animation:lock 3.2s ease-in-out infinite}
-@keyframes lock{0%,35%{transform:translateY(-7px)}50%,90%{transform:translateY(0)}100%{transform:translateY(-7px)}}
+    .hero-icon {
+      width: 100px; height: 100px; border-radius: 22px;
+      background: var(--bg2); border: 1px solid var(--border);
+      margin: 0 auto 28px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.62rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; text-align: center;
+      line-height: 1.5;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.05s;
+    }
 
-/* counter */
-@property --n{syntax:'<integer>';initial-value:0;inherits:false}
-.count{counter-reset:n var(--n);animation:countUp 2.6s ease-out forwards}
-.count::after{content:counter(n)}
-@keyframes countUp{from{--n:0}to{--n:12}}
+    .hero-eyebrow {
+      display: inline-block; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--coral); margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s;
+    }
 
-/* inputs */
-.field{display:flex;flex-direction:column;gap:8px}
-.field label{font-size:13px;font-weight:700;color:#B5A797}
-.inp{height:52px;border-radius:14px;border:1px solid #2A231D;background:#0F0C0A;color:#F4EDE6;font:700 18px 'Plus Jakarta Sans',sans-serif;padding:0 16px;width:100%;outline:none}
-.inp:focus{border-color:#FFA040;box-shadow:0 0 0 3px rgba(255,160,64,.18)}
-.range{width:100%;accent-color:#F07A22;height:44px}
-.seg{display:flex;background:#0F0C0A;border:1px solid #2A231D;border-radius:14px;padding:4px;gap:4px}
-.seg button{flex:1;height:44px;border:0;border-radius:10px;background:none;color:#B5A797;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
-.seg button.on{background:linear-gradient(180deg,#FFA040,#E0610F);color:#1A0E04}
+    .hero h1 {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+    .hero h1 span { color: var(--coral); }
 
-.check{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.45;color:#E6DCD2}
-.check svg{flex-shrink:0;margin-top:2px}
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.65;
+      max-width: 480px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.3s;
+    }
 
-/* scroll reveal where supported */
-@supports (animation-timeline: view()){
- .rv{animation:rise linear both;animation-timeline:view();animation-range:entry 0% cover 28%}
- @keyframes rise{from{opacity:0;transform:translateY(48px)}to{opacity:1;transform:none}}
-}
-@media (prefers-reduced-motion: reduce){
- *,*::before,*::after{animation:none!important;transition:none!important}
- .fig-after{opacity:1}.count{--n:12}
-}
-</style>
-<style>html{scroll-behavior:smooth}</style>
+    .hero-actions {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+
+    .appstore-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--text); color: var(--bg);
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      text-decoration: none; padding: 13px 24px; border-radius: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .appstore-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(242,237,232,0.15);
+    }
+    .appstore-badge-sub  { font-size: 0.65rem; font-weight: 400; opacity: 0.6; display: block; margin-bottom: 1px; }
+    .appstore-badge-main { font-size: 1rem; font-weight: 700; display: block; }
+
+    .hero-price-note {
+      font-size: 0.8rem; color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .hero-price-note::before {
+      content: ''; display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--coral); flex-shrink: 0;
+    }
+
+    /* ── Divider ───────────────────────────── */
+    .divider { height: 1px; background: var(--border); }
+
+    /* ── Section labels ────────────────────── */
+    .section-label {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--coral); margin-bottom: 18px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 1.9rem; letter-spacing: -0.025em;
+      margin-bottom: 16px; line-height: 1.15;
+    }
+    .section-body {
+      font-size: 0.97rem; color: #8A8078;
+      line-height: 1.7; margin-bottom: 12px; max-width: 580px;
+    }
+
+    /* ── Screenshots ───────────────────────── */
+    .screenshots-section { padding: 72px 0; }
+    .screenshots-scroll {
+      display: flex; gap: 16px;
+      overflow-x: auto; padding: 8px 0 16px;
+      scrollbar-width: none; -ms-overflow-style: none;
+      margin-top: 32px;
+    }
+    .screenshots-scroll::-webkit-scrollbar { display: none; }
+    .screenshot-frame {
+      flex-shrink: 0; width: 200px; height: 380px;
+      border-radius: 24px; background: var(--bg2);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-align: center; padding: 16px; line-height: 1.6;
+      transition: transform 0.2s;
+    }
+    .screenshot-frame:hover { transform: translateY(-4px); }
+
+    /* ── Features ──────────────────────────── */
+    .features-section { padding: 72px 0; }
+    .features-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-top: 36px;
+    }
+    .feature-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 26px 24px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(224,122,95,0.25); background: var(--surface); }
+    .feature-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+    .feature-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 0.97rem; margin-bottom: 8px; letter-spacing: -0.01em;
+    }
+    .feature-body { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── Support ───────────────────────────── */
+    .support-section { padding: 72px 0; }
+    .contact-card {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 24px;
+      margin-top: 24px; text-decoration: none; color: inherit;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .contact-card:hover { border-color: rgba(224,122,95,0.4); transform: translateY(-2px); }
+    .contact-icon {
+      width: 40px; height: 40px; background: rgba(224,122,95,0.15);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+    .contact-icon svg { width: 18px; height: 18px; }
+    .contact-text-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .contact-text-email { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.95rem; color: var(--text); }
+    .response-note { display: flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 0.83rem; color: var(--muted); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ECDC4; flex-shrink: 0; }
+
+    /* ── FAQ ───────────────────────────────── */
+    .faq-section { padding: 72px 0; }
+    .faq-list {
+      margin-top: 36px; border-radius: 16px;
+      overflow: hidden; border: 1px solid var(--border);
+    }
+    .faq-item { background: var(--bg2); border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+      width: 100%; text-align: left; background: none; border: none;
+      cursor: pointer; padding: 22px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.97rem;
+      color: var(--text); letter-spacing: -0.01em; transition: background 0.2s;
+    }
+    .faq-question:hover { background: var(--surface); }
+    .faq-chevron { width: 18px; height: 18px; flex-shrink: 0; color: var(--muted); transition: transform 0.25s; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      font-size: 0.9rem; color: var(--muted); line-height: 1.65; padding: 0 28px;
+    }
+    .faq-item.open .faq-answer { max-height: 200px; padding: 0 28px 22px; }
+
+    /* ── Privacy ───────────────────────────── */
+    .privacy-section { padding: 72px 0 80px; }
+    .policy-grid {
+      display: grid; gap: 2px; margin-top: 36px;
+      border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .policy-item {
+      background: var(--bg2); padding: 28px 30px;
+      border-bottom: 1px solid var(--border); transition: background 0.2s;
+    }
+    .policy-item:last-child { border-bottom: none; }
+    .policy-item:hover { background: var(--surface); }
+    .policy-item-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 10px; }
+    .policy-num { font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700; color: var(--coral); letter-spacing: 0.1em; margin-top: 3px; flex-shrink: 0; }
+    .policy-item-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; }
+    .policy-item-body { font-size: 0.9rem; color: #7A746E; line-height: 1.65; padding-left: 42px; }
+    .policy-agree {
+      margin-top: 28px; padding: 20px 24px;
+      background: rgba(224,122,95,0.06); border: 1px solid rgba(224,122,95,0.18);
+      border-radius: 12px; font-size: 0.85rem; color: var(--muted);
+      line-height: 1.6; text-align: center;
+    }
+    .policy-updated { text-align: center; font-size: 0.78rem; color: var(--muted); margin-top: 14px; letter-spacing: 0.04em; }
+
+    /* ── Footer ────────────────────────────── */
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 36px 0; }
+    .footer-inner { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .footer-left { display: flex; flex-direction: column; gap: 8px; }
+    .footer-wordmark { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--coral); }
+    .footer-tagline { font-size: 0.8rem; color: var(--muted); }
+    .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 0.78rem; color: var(--muted); }
+
+    /* ── Animations ────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {}
+    
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding: 64px 0 48px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .policy-item { padding: 22px 20px; }
+      .policy-item-body { padding-left: 0; margin-top: 8px; }
+      .footer-inner { flex-direction: column; }
+      .footer-right { align-items: flex-start; }
+      .faq-question { padding: 18px 20px; font-size: 0.9rem; }
+      .faq-item.open .faq-answer { padding: 0 20px 18px; }
+    }
+  </style>
 </head>
 <body>
-<div style="width: 100%; min-height: 100vh; background: #0D0B0A; color: #F4EDE6; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; overflow-x: hidden;">
 
-  <!-- shared figure symbols -->
-  <svg width="0" height="0" style="position: absolute;" aria-hidden="true">
-    <defs>
-      <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFA040"/><stop offset="1" stop-color="#E0610F"/></linearGradient>
-      <linearGradient id="bodyDim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E5A48"/><stop offset="1" stop-color="#4A3B2F"/></linearGradient>
-      <symbol id="figAfter" viewBox="0 0 200 400">
-        <circle cx="100" cy="42" r="22"/>
-        <rect x="91" y="60" width="18" height="20" rx="6"/>
-        <path d="M54 92 Q100 78 146 92 L152 108 Q150 150 130 202 L70 202 Q50 150 48 108 Z"/>
-        <path d="M50 98 Q32 104 30 150 L28 214 Q28 222 36 222 Q42 222 42 214 L46 156 Q50 128 58 118 Z"/>
-        <path d="M150 98 Q168 104 170 150 L172 214 Q172 222 164 222 Q158 222 158 214 L154 156 Q150 128 142 118 Z"/>
-        <path d="M70 198 L130 198 Q134 240 128 300 L124 368 Q123 378 114 378 Q106 378 106 368 L102 262 L98 262 L94 368 Q94 378 86 378 Q77 378 76 368 L72 300 Q66 240 70 198 Z"/>
-      </symbol>
-      <symbol id="figBefore" viewBox="0 0 200 400">
-        <circle cx="100" cy="42" r="22"/>
-        <rect x="91" y="60" width="18" height="22" rx="6"/>
-        <path d="M64 94 Q100 84 136 94 L142 112 Q150 160 140 206 L60 206 Q50 160 58 112 Z"/>
-        <path d="M60 100 Q44 108 42 152 L40 214 Q40 222 48 222 Q54 222 54 214 L56 158 Q58 132 64 122 Z"/>
-        <path d="M140 100 Q156 108 158 152 L160 214 Q160 222 152 222 Q146 222 146 214 L144 158 Q142 132 136 122 Z"/>
-        <path d="M60 202 L140 202 Q144 244 134 300 L128 368 Q127 378 118 378 Q110 378 110 368 L104 264 L96 264 L90 368 Q90 378 82 378 Q73 378 72 368 L66 300 Q56 244 60 202 Z"/>
-      </symbol>
-    </defs>
-  </svg>
+  <div class="glow-tl"></div>
+  <div class="glow-br"></div>
 
-  <!-- NAV -->
-  <header style="position: sticky; top: 0; z-index: 20; background: rgba(13, 11, 10, 0.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
-    <nav class="wrap" style="height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px;" aria-label="Main">
-      <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #F4EDE6;">
-        <span style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(180deg, #FFA040, #E0610F); display: flex; align-items: center; justify-content: center; color: #1A0E04; font-family: 'Anton', sans-serif; font-size: 22px;">M</span>
-        <span style="font-weight: 800; font-size: 20px; letter-spacing: -0.3px;">Morpha</span>
-      </a>
-      <div class="navlinks" style="display: flex; gap: 32px;">
-        <a class="navlink" href="#how">How it works</a>
-        <a class="navlink" href="#features">Features</a>
-        <a class="navlink" href="#plan">Goal planner</a>
-        <a class="navlink" href="#pricing">Pricing</a>
-      </div>
-      <a class="btn btn-p" href="#download" style="min-height: 44px; padding: 0 18px; font-size: 14px;">Get the app</a>
-    </nav>
-  </header>
+  <!-- ── Nav ── -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <span class="wordmark">MacroMate</span>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#support">Support</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#privacy">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-  <!-- HERO -->
-  <section id="top" style="position: relative; padding: 72px 0 96px;">
-    <div aria-hidden="true" style="position: absolute; right: -10%; top: -10%; width: 760px; height: 760px; border-radius: 50%; background: radial-gradient(circle, rgba(240, 122, 34, 0.22), rgba(13, 11, 10, 0) 65%); pointer-events: none;"></div>
-    <div class="wrap hero" style="position: relative;">
-      <div style="display: flex; flex-direction: column; gap: 28px;">
-        <p class="eyebrow">Weekly physique tracking for iPhone</p>
-        <h1 class="disp" style="font-size: clamp(56px, 8.4vw, 116px);">See the change<br><span class="grad">the scale can't.</span></h1>
-        <p class="lead" style="max-width: 520px;">Morpha turns a 60-second weekly check-in into a clear picture of your progress. Front, side and back photos, perfectly lined up, with your weight, body fat and lean mass trends right beside them.</p>
-        <div style="display: flex; flex-wrap: wrap; gap: 14px;">
-          <a class="btn btn-p" href="#download">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.3 1.2 9.7.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg>
-            Download on the App Store</a>
-          <a class="btn btn-g" href="#how">See how it works</a>
-        </div>
-        <div style="display: flex; flex-wrap: wrap; gap: 22px; font-size: 14px; color: #B5A797; font-weight: 600;">
-          <span style="display: flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Free to start</span>
-          <span style="display: flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Works with Apple Health</span>
-          <span style="display: flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Face ID private</span>
-        </div>
-      </div>
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="container">
 
-      <!-- scan visual -->
-      <div style="position: relative; display: flex; justify-content: center; padding: 20px 0;">
-        <svg class="ring" width="520" height="520" viewBox="0 0 520 520" aria-hidden="true" style="position: absolute; top: 50%; left: 50%; margin: -260px 0 0 -260px; max-width: 110%; opacity: .5;">
-          <circle cx="260" cy="260" r="250" fill="none" stroke="#3A2A1C" stroke-width="1" stroke-dasharray="2 10"/>
-          <circle cx="260" cy="10" r="5" fill="#FFA040"/>
-        </svg>
-        <div class="card" style="position: relative; width: min(100%, 380px); aspect-ratio: 3 / 4; border-radius: 32px; overflow: hidden; background: linear-gradient(180deg, #1C1612, #120E0B); box-shadow: 0 40px 80px rgba(0, 0, 0, .55);">
-          <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,160,64,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,160,64,.06) 1px, transparent 1px); background-size: 28px 28px;"></div>
-          <svg viewBox="0 0 200 400" role="img" aria-label="Animated body silhouette changing shape over time with pose tracking points" style="position: absolute; left: 12%; top: 8%; width: 76%; height: 86%;">
-            <use href="#figAfter" fill="none" stroke="#FFA040" stroke-opacity=".35" stroke-width="1.2" stroke-dasharray="4 4" transform="translate(3 2)"/>
-            <use class="fig-before" href="#figBefore" fill="url(#bodyDim)"/>
-            <use class="fig-after" href="#figAfter" fill="url(#bodyG)"/>
-            <g stroke="#FFE2C2" stroke-opacity=".55" stroke-width="1.2" fill="none">
-              <path d="M54 96 L146 96 M54 96 L36 160 L35 216 M146 96 L164 160 L165 216 M54 96 L74 206 M146 96 L126 206 M74 206 L126 206 M74 206 L84 290 L86 370 M126 206 L116 290 L114 370 M100 64 L100 96"/>
-            </g>
-            <g fill="#FFF3E6">
-              <circle class="joint" cx="100" cy="42" r="3.2"/>
-              <circle class="joint" cx="54" cy="96" r="3.2" style="animation-delay: .2s;"/>
-              <circle class="joint" cx="146" cy="96" r="3.2" style="animation-delay: .4s;"/>
-              <circle class="joint" cx="36" cy="160" r="3" style="animation-delay: .6s;"/>
-              <circle class="joint" cx="164" cy="160" r="3" style="animation-delay: .8s;"/>
-              <circle class="joint" cx="74" cy="206" r="3.2" style="animation-delay: 1s;"/>
-              <circle class="joint" cx="126" cy="206" r="3.2" style="animation-delay: 1.2s;"/>
-              <circle class="joint" cx="84" cy="290" r="3" style="animation-delay: 1.4s;"/>
-              <circle class="joint" cx="116" cy="290" r="3" style="animation-delay: 1.6s;"/>
-            </g>
-          </svg>
-          <div class="scanline" aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 18%; background: linear-gradient(180deg, rgba(255,160,64,0), rgba(255,160,64,.22) 85%, #FFA040 100%); border-bottom: 2px solid #FFA040; box-shadow: 0 6px 24px rgba(255,160,64,.6);"></div>
-          <div style="position: absolute; left: 16px; right: 16px; top: 16px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 12px; font-weight: 800; letter-spacing: 1.6px; padding: 7px 12px; border-radius: 999px; background: rgba(0,0,0,.5); color: #FFA040;">FRONT · SIDE · BACK</span>
-            <span style="font-size: 12px; font-weight: 700; padding: 7px 12px; border-radius: 999px; background: rgba(0,0,0,.5); color: #E6DCD2;">3:4</span>
-          </div>
-        </div>
-        <div class="bob card" style="position: absolute; left: 0; top: 18%; padding: 14px 16px; border-radius: 18px; display: flex; flex-direction: column; gap: 2px; box-shadow: 0 20px 40px rgba(0,0,0,.5); background: rgba(22, 18, 15, .92);">
-          <span style="font-size: 12px; color: #B5A797; font-weight: 700;">Weight · 12 wks</span>
-          <span style="font-size: 22px; font-weight: 800;" class="grad">−5.6 lb</span>
-        </div>
-        <div class="bob2 card" style="position: absolute; right: 0; bottom: 16%; padding: 14px 16px; border-radius: 18px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 20px 40px rgba(0,0,0,.5); background: rgba(22, 18, 15, .92); width: 190px;">
-          <span style="font-size: 12px; color: #B5A797; font-weight: 700;">Body fat trend</span>
-          <svg width="158" height="44" viewBox="0 0 158 44" aria-hidden="true">
-            <path class="draw" d="M2 8 L30 12 L56 15 L82 22 L108 27 L132 33 L156 38" fill="none" stroke="url(#bodyG)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span style="font-size: 12px; font-weight: 800; color: #FFA040;">Leaning out</span>
-        </div>
-      </div>
-    </div>
-  </section>
+      <img src="icon.png" style="width:100px;height:100px;border-radius:22px;margin:0 auto 28px;display:block;">
 
-  <!-- MARQUEE -->
-  <div aria-hidden="true" style="border-top: 1px solid #221C17; border-bottom: 1px solid #221C17; padding: 22px 0; overflow: hidden; background: #110E0C;">
-    <div class="marq disp" style="font-size: 30px; color: #3F342B;">
-      <span>Front</span><span class="grad">●</span><span>Side</span><span class="grad">●</span><span>Back</span><span class="grad">●</span><span>Ghost pose</span><span class="grad">●</span><span>Morph reel</span><span class="grad">●</span><span>Weekly check-ins</span><span class="grad">●</span><span>Lean mass</span><span class="grad">●</span><span>Body fat</span><span class="grad">●</span>
-      <span>Front</span><span class="grad">●</span><span>Side</span><span class="grad">●</span><span>Back</span><span class="grad">●</span><span>Ghost pose</span><span class="grad">●</span><span>Morph reel</span><span class="grad">●</span><span>Weekly check-ins</span><span class="grad">●</span><span>Lean mass</span><span class="grad">●</span><span>Body fat</span><span class="grad">●</span>
-    </div>
-  </div>
+      <span class="hero-eyebrow">MacroMate: Athlete Nutrition</span>
+      <h1>Built for athletes.<br><span>Not algorithms.</span></h1>
+      <p class="hero-sub">Professional-grade macro tracking with no AI guessing, no subscriptions, and no noise. Just your numbers, tracked exactly how you want them.</p>
 
-  <!-- PROBLEM -->
-  <section style="padding: 120px 0;">
-    <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px; align-items: center;">
-      <div class="rv" style="display: flex; flex-direction: column; gap: 22px;">
-        <p class="eyebrow">The problem</p>
-        <h2 class="disp" style="font-size: clamp(44px, 5.6vw, 76px);">Same weight.<br><span class="grad">Different body.</span></h2>
-        <p class="lead">The scale gives you one number. When you lose fat and build muscle at the same time, that number barely moves, and that's exactly when most people quit.</p>
-        <p class="lead">Morpha shows you what's actually changing: your shape, your body fat, your lean mass, week after week.</p>
-      </div>
-      <div class="rv card" style="padding: 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; position: relative;">
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
-          <svg viewBox="0 0 200 400" width="100%" style="max-width: 170px;" role="img" aria-label="Week 1 silhouette"><use href="#figBefore" fill="url(#bodyDim)"/></svg>
-          <span style="font-size: 13px; font-weight: 700; color: #B5A797;">Week 1</span>
-          <span style="font-family: 'Anton', sans-serif; font-size: 34px;">170 LB</span>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
-          <svg viewBox="0 0 200 400" width="100%" style="max-width: 170px;" role="img" aria-label="Week 12 silhouette"><use href="#figAfter" fill="url(#bodyG)"/></svg>
-          <span style="font-size: 13px; font-weight: 700; color: #B5A797;">Week 12</span>
-          <span style="font-family: 'Anton', sans-serif; font-size: 34px;" class="grad">170 LB</span>
-        </div>
-        <span style="position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); font-size: 13px; font-weight: 800; padding: 8px 14px; border-radius: 999px; background: #0D0B0A; border: 1px solid #3A3029; color: #FFA040; white-space: nowrap;">Scale: no change</span>
-      </div>
-    </div>
-  </section>
+      <div class="hero-actions">
+        <a href="https://apps.apple.com/us/app/macromate-athlete-nutrition/id6759298382" class="appstore-badge" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <div>
+            <span class="appstore-badge-sub">Download on the</span>
+            <span class="appstore-badge-main">App Store</span>
+          </div>
+        </a>
+        <span class="hero-price-note">$0.99 one-time 70% off — no subscription, ever</span>
+      </div>
 
-  <!-- BARBELL DIVIDER -->
-  <div aria-hidden="true" style="display: flex; justify-content: center; padding: 0 0 40px;">
-    <svg width="420" height="140" viewBox="0 0 420 140" style="max-width: 90%;">
-      <rect x="20" y="126" width="380" height="4" rx="2" fill="#221C17"/>
-      <g class="bar">
-        <rect x="30" y="66" width="360" height="8" rx="4" fill="#6E5A48"/>
-        <rect x="64" y="58" width="12" height="24" rx="3" fill="#8F7A66"/>
-        <rect x="344" y="58" width="12" height="24" rx="3" fill="#8F7A66"/>
-        <g class="plateL"><rect x="78" y="22" width="18" height="96" rx="5" fill="url(#bodyG)"/></g>
-        <g class="plateL d2"><rect x="98" y="34" width="14" height="72" rx="4" fill="#E0610F"/></g>
-        <g class="plateR"><rect x="324" y="22" width="18" height="96" rx="5" fill="url(#bodyG)"/></g>
-        <g class="plateR d2"><rect x="308" y="34" width="14" height="72" rx="4" fill="#E0610F"/></g>
-      </g>
-    </svg>
-  </div>
+    </div>
+  </section>
 
-  <!-- HOW IT WORKS -->
-  <section id="how" style="padding: 40px 0 120px;">
-    <div class="wrap" style="display: flex; flex-direction: column; gap: 56px;">
-      <div class="rv" style="display: flex; flex-direction: column; gap: 18px; max-width: 720px;">
-        <p class="eyebrow">How it works</p>
-        <h2 class="disp" style="font-size: clamp(44px, 5.6vw, 76px);">One check-in.<br><span class="grad">Every week.</span></h2>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+  <div class="divider"></div>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 22px;">
-          <div style="height: 200px; border-radius: 18px; background: #0F0C0A; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 18px;">
-            <div class="tile" style="border-radius: 12px; background: #1E1915; border: 1px solid #3A2A1C; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 8px; gap: 6px;">
-              <svg viewBox="0 0 200 400" width="70%" aria-hidden="true"><use href="#figAfter" fill="url(#bodyG)"/></svg>
-              <span style="font-size: 11px; font-weight: 800; color: #FFA040;">FRONT</span>
-            </div>
-            <div class="tile t2" style="border-radius: 12px; background: #1E1915; border: 1px solid #3A2A1C; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 8px; gap: 6px;">
-              <svg viewBox="0 0 200 400" width="70%" aria-hidden="true"><g transform="translate(100 0) scale(.45 1) translate(-100 0)"><use href="#figAfter" fill="url(#bodyG)"/></g></svg>
-              <span style="font-size: 11px; font-weight: 800; color: #FFA040;">SIDE</span>
-            </div>
-            <div class="tile t3" style="border-radius: 12px; background: #1E1915; border: 1px solid #3A2A1C; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 8px; gap: 6px;">
-              <svg viewBox="0 0 200 400" width="70%" aria-hidden="true"><use href="#figAfter" fill="#C2561A"/></svg>
-              <span style="font-size: 11px; font-weight: 800; color: #FFA040;">BACK</span>
-            </div>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <span class="disp grad" style="font-size: 40px;">01</span>
-            <h3 style="margin: 0; font-size: 22px; font-weight: 800;">Snap front, side &amp; back</h3>
-            <p style="margin: 0; color: #B5A797; line-height: 1.6;">A guided camera walks you through three angles. The ghost pose overlay lines you up with last week, and every photo is cropped to the same 3:4 frame.</p>
-          </div>
-        </article>
+  <!-- ── Screenshots ── -->
+  <section class="screenshots-section" id="screenshots">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">The App</p>
+        <h2 class="section-title">See it in action.</h2>
+      </div>
+      <div class="screenshots-scroll reveal">
+        <img src="macromate_screenshot_1.png" style="width:200px;height:380px;object-fit:cover;border-radius:24px;flex-shrink:0;">
+        <img src="macromate_screenshot_2.png" style="width:200px;height:380px;object-fit:cover;border-radius:24px;flex-shrink:0;">
+        <img src="macromate_screenshot_3.png" style="width:200px;height:380px;object-fit:cover;border-radius:24px;flex-shrink:0;">
+        <img src="macromate_screenshot_4.png" style="width:200px;height:380px;object-fit:cover;border-radius:24px;flex-shrink:0;">
+        <img src="macromate_screenshot_5.png" style="width:200px;height:380px;object-fit:cover;border-radius:24px;flex-shrink:0;">
+      </div>
+    </div>
+  </section>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 22px;">
-          <div style="height: 200px; border-radius: 18px; background: #0F0C0A; display: flex; align-items: center; justify-content: space-between; padding: 22px;">
-            <div style="width: 64px; height: 64px; border-radius: 18px; background: #2A1418; display: flex; align-items: center; justify-content: center;">
-              <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path class="heart" d="M20.8 5.6a5 5 0 00-7.1 0L12 7.3l-1.7-1.7a5 5 0 00-7.1 7.1L12 21.5l8.8-8.8a5 5 0 000-7.1z" fill="#FF6B81"/></svg>
-            </div>
-            <svg width="70" height="20" viewBox="0 0 70 20" aria-hidden="true"><path class="flow" d="M2 10 H62" stroke="#FFA040" stroke-width="3" stroke-linecap="round"/><path d="M56 4 L64 10 L56 16" fill="none" stroke="#FFA040" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1; max-width: 150px;">
-              <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 8px 10px; border-radius: 10px; background: #1E1915;"><span style="color: #B5A797;">Weight</span><b>✓</b></div>
-              <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 8px 10px; border-radius: 10px; background: #1E1915;"><span style="color: #B5A797;">Body fat</span><b>✓</b></div>
-              <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 8px 10px; border-radius: 10px; background: #1E1915;"><span style="color: #B5A797;">Lean mass</span><b>✓</b></div>
-            </div>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <span class="disp grad" style="font-size: 40px;">02</span>
-            <h3 style="margin: 0; font-size: 22px; font-weight: 800;">Sync with Apple Health</h3>
-            <p style="margin: 0; color: #B5A797; line-height: 1.6;">Morpha reads your weight, body fat percentage and lean mass so every check-in carries its numbers. It never writes to Health.</p>
-          </div>
-        </article>
+  <div class="divider"></div>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 22px;">
-          <div style="height: 200px; border-radius: 18px; background: #0F0C0A; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
-            <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <span style="font-size: 13px; color: #B5A797; font-weight: 700;">Weight trend</span>
-              <span style="font-size: 13px; font-weight: 800; color: #FFA040;">−0.47 lb / wk</span>
-            </div>
-            <svg viewBox="0 0 300 120" width="100%" height="130" preserveAspectRatio="none" aria-hidden="true">
-              <line x1="0" y1="96" x2="300" y2="96" stroke="#6FDDA9" stroke-opacity=".6" stroke-dasharray="6 4"/>
-              <path class="draw" d="M0 12 L27 18 L55 26 L82 30 L109 42 L136 48 L164 54 L191 66 L218 72 L245 82 L273 88 L300 96" fill="none" stroke="url(#bodyG)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-            </svg>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <span class="disp grad" style="font-size: 40px;">03</span>
-            <h3 style="margin: 0; font-size: 22px; font-weight: 800;">Watch the trend</h3>
-            <p style="margin: 0; color: #B5A797; line-height: 1.6;">Weekly insights turn your check-ins into a real trend, and it gets clearer every week. Visual trends, not guesswork.</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
+  <!-- ── Features ── -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Features</p>
+        <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
+      </div>
+      <div class="features-grid reveal">
 
-  <!-- COMPARE -->
-  <section style="padding: 40px 0 120px;">
-    <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px; align-items: center;">
-      <div class="rv card" style="padding: 18px; display: flex; flex-direction: column; gap: 14px;">
-        <div style="position: relative; aspect-ratio: 3 / 4; border-radius: 18px; overflow: hidden; background: #0F0C0A;">
-          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #17120E;">
-            <svg viewBox="0 0 200 400" style="height: 88%;" aria-hidden="true"><use href="#figBefore" fill="url(#bodyDim)"/></svg>
-          </div>
-          <div id="cmpAfter" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #1E1610; clip-path: inset(0 0 0 50%);">
-            <svg viewBox="0 0 200 400" style="height: 88%;" aria-hidden="true"><use href="#figAfter" fill="url(#bodyG)"/></svg>
-          </div>
-          <div id="cmpLine" aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: linear-gradient(180deg, #FFA040, #E0610F); pointer-events: none;"></div>
-          <div id="cmpKnob" aria-hidden="true" style="position: absolute; top: 50%; left: 50%; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; background: linear-gradient(180deg, #FFA040, #E0610F); box-shadow: 0 8px 22px rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; color: #1A0E04; pointer-events: none;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg>
-          </div>
-          <span style="position: absolute; left: 14px; bottom: 14px; font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 999px; background: rgba(0,0,0,.6);">Week 1</span>
-          <span style="position: absolute; right: 14px; bottom: 14px; font-size: 13px; font-weight: 800; padding: 7px 12px; border-radius: 999px; background: rgba(0,0,0,.6); color: #FFA040;">Week 12</span>
-        </div>
-        <label for="cmp" style="font-size: 13px; font-weight: 700; color: #B5A797;">Drag to compare</label>
-        <input id="cmp" class="range" type="range" min="0" max="100" value="50">
-      </div>
-      <div class="rv" style="display: flex; flex-direction: column; gap: 22px;">
-        <p class="eyebrow">Then vs now</p>
-        <h2 class="disp" style="font-size: clamp(44px, 5.6vw, 76px);">Proof you can<br><span class="grad">drag across.</span></h2>
-        <p class="lead">Slide between your first check-in and your latest, angle by angle. Because every photo is posed and cropped the same way, the difference is real, not a trick of the light.</p>
-        <a class="btn btn-g" href="#download" style="align-self: flex-start;">Start your week 1</a>
-      </div>
-    </div>
-  </section>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(224,122,95,0.15);">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E07A5F" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <div class="feature-title">Daily Macro Tracking</div>
+          <p class="feature-body">Log fat, carbs, protein, and calories with precision. Real-time ring progress so you know exactly where you stand all day.</p>
+        </div>
 
-  <!-- FEATURES -->
-  <section id="features" style="padding: 40px 0 120px;">
-    <div class="wrap" style="display: flex; flex-direction: column; gap: 56px;">
-      <div class="rv" style="display: flex; flex-direction: column; gap: 18px; max-width: 760px;">
-        <p class="eyebrow">Features</p>
-        <h2 class="disp" style="font-size: clamp(44px, 5.6vw, 76px);">Built for the<br><span class="grad">long game.</span></h2>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(78,205,196,0.15);">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#4ECDC4" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-7"/></svg>
+          </div>
+          <div class="feature-title">Weekly Insights</div>
+          <p class="feature-body">See your full week at a glance. Track totals vs. targets across every macro so you can spot patterns and fix weak days.</p>
+        </div>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 18px; overflow: hidden;">
-          <div style="height: 140px; border-radius: 16px; background: #0F0C0A; position: relative; display: flex; align-items: center; justify-content: center;">
-            <svg viewBox="0 0 200 400" height="124" aria-hidden="true">
-              <use href="#figAfter" fill="none" stroke="#FFA040" stroke-width="3" stroke-dasharray="6 6" opacity=".7"/>
-              <use class="fig-after" href="#figAfter" fill="url(#bodyG)" opacity=".85" transform="translate(6 0)"/>
-            </svg>
-          </div>
-          <h3 style="margin: 0; font-size: 21px; font-weight: 800;">Ghost pose camera</h3>
-          <p style="margin: 0; color: #B5A797; line-height: 1.6;">Last week's outline appears on screen so you match your stance, distance and angle every time.</p>
-        </article>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(232,201,122,0.15);">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E8C97A" stroke-width="1.8"><path d="M4 6h16M4 10h16M4 14h10"/><circle cx="17" cy="17" r="4"/><path d="M17 15v2l1 1"/></svg>
+          </div>
+          <div class="feature-title">Meal Library</div>
+          <p class="feature-body">Save the meals you eat on repeat. Log them in seconds with one tap instead of re-entering numbers every single day.</p>
+        </div>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 18px; overflow: hidden;">
-          <div style="height: 140px; border-radius: 16px; background: #0F0C0A; overflow: hidden; display: flex; align-items: center;">
-            <div class="strip" aria-hidden="true">
-              <span style="width: 78px; height: 104px; border-radius: 10px; background: #2A221C; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 200 400" height="88"><use href="#figBefore" fill="url(#bodyDim)"/></svg></span>
-              <span style="width: 78px; height: 104px; border-radius: 10px; background: #2A221C; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 200 400" height="88"><use href="#figBefore" fill="#8A5A34"/></svg></span>
-              <span style="width: 78px; height: 104px; border-radius: 10px; background: #2A221C; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 200 400" height="88"><use href="#figAfter" fill="#B8551A"/></svg></span>
-              <span style="width: 78px; height: 104px; border-radius: 10px; background: #2A221C; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 200 400" height="88"><use href="#figAfter" fill="url(#bodyG)"/></svg></span>
-              <span style="width: 78px; height: 104px; border-radius: 10px; background: #2A221C; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 200 400" height="88"><use href="#figBefore" fill="url(#bodyDim)"/></svg></span>
-              <span style="width: 78px; height: 104px; border-radius: 10px; background: #2A221C; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 200 400" height="88"><use href="#figBefore" fill="#8A5A34"/></svg></span>
-              <span style="width: 78px; height: 104px; border-radius: 10px; background: #2A221C; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 200 400" height="88"><use href="#figAfter" fill="#B8551A"/></svg></span>
-              <span style="width: 78px; height: 104px; border-radius: 10px; background: #2A221C; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 200 400" height="88"><use href="#figAfter" fill="url(#bodyG)"/></svg></span>
-            </div>
-          </div>
-          <h3 style="margin: 0; font-size: 21px; font-weight: 800;">Morph Reel</h3>
-          <p style="margin: 0; color: #B5A797; line-height: 1.6;">Your check-ins stitched into a smooth time-lapse, ready to share to TikTok, Reels or Stories.</p>
-        </article>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(224,122,138,0.15);">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E07A8A" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+          </div>
+          <div class="feature-title">Peak Day Protocols</div>
+          <p class="feature-body">Set custom daily overrides for carb loading, peak days, and high-output blocks — without touching your standard targets.</p>
+        </div>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 18px;">
-          <div style="height: 140px; border-radius: 16px; background: #0F0C0A; padding: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
-            <div style="border-radius: 12px; background: #1E1915; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
-              <span style="font-size: 12px; color: #B5A797; font-weight: 700;">Body fat</span>
-              <svg viewBox="0 0 120 40" width="100%" height="40" aria-hidden="true"><path class="draw" d="M2 8 L30 14 L60 20 L90 28 L118 34" fill="none" stroke="url(#bodyG)" stroke-width="3" stroke-linecap="round"/></svg>
-              <span style="font-size: 12px; font-weight: 800; color: #FFA040;">Leaning out</span>
-            </div>
-            <div style="border-radius: 12px; background: #1E1915; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
-              <span style="font-size: 12px; color: #B5A797; font-weight: 700;">Lean mass</span>
-              <svg viewBox="0 0 120 40" width="100%" height="40" aria-hidden="true"><path class="draw" d="M2 30 L30 28 L60 24 L90 20 L118 14" fill="none" stroke="#6FDDA9" stroke-width="3" stroke-linecap="round"/></svg>
-              <span style="font-size: 12px; font-weight: 800; color: #6FDDA9;">Building</span>
-            </div>
-          </div>
-          <h3 style="margin: 0; font-size: 21px; font-weight: 800;">Body composition trends</h3>
-          <p style="margin: 0; color: #B5A797; line-height: 1.6;">Weight, body fat and lean mass on one chart, with plain-English labels for what's happening.</p>
-        </article>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(110,181,255,0.15);">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#6EB5FF" stroke-width="1.8"><path d="M12 2C6 9 4 13 4 16a8 8 0 0016 0c0-3-2-7-8-14z"/></svg>
+          </div>
+          <div class="feature-title">Hydration Tracking</div>
+          <p class="feature-body">Log your water intake alongside your macros. Set a daily oz target and track progress in the same place.</p>
+        </div>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 18px;">
-          <div style="height: 140px; border-radius: 16px; background: #0F0C0A; padding: 18px; display: flex; flex-direction: column; justify-content: center; gap: 14px;">
-            <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 700;"><span>Cut to target</span><span style="color: #FFA040;">On pace</span></div>
-            <div style="height: 12px; border-radius: 999px; background: #2A231D; overflow: hidden;"><div class="bar-fill" style="height: 100%; width: 72%; border-radius: 999px; background: linear-gradient(90deg, #FFA040, #E0610F);"></div></div>
-            <span style="font-size: 13px; color: #B5A797;">Weekly target calculated from your goal</span>
-          </div>
-          <h3 style="margin: 0; font-size: 21px; font-weight: 800;">Goals with a real pace</h3>
-          <p style="margin: 0; color: #B5A797; line-height: 1.6;">Set a target weight, body fat and timeline. Morpha works out exactly what you need to change each week.</p>
-        </article>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(224,122,95,0.15);">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E07A5F" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="feature-title">Streak System</div>
+          <p class="feature-body">Daily logging streaks keep you accountable. The longer the streak, the harder it is to break — that's the point.</p>
+        </div>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 18px;">
-          <div style="height: 140px; border-radius: 16px; background: #0F0C0A; padding: 18px; display: flex; flex-direction: column; justify-content: center; gap: 14px;">
-            <div style="display: flex; align-items: baseline; gap: 8px;"><span class="disp grad count" style="font-size: 44px;"></span><span style="font-weight: 800;">week streak</span></div>
-            <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 5px;" aria-hidden="true">
-              <span class="blk"></span><span class="blk" style="animation-delay: .15s;"></span><span class="blk" style="animation-delay: .3s;"></span><span class="blk" style="animation-delay: .45s;"></span><span class="blk" style="animation-delay: .6s;"></span><span class="blk" style="animation-delay: .75s;"></span><span class="blk" style="animation-delay: .9s;"></span><span class="blk" style="animation-delay: 1.05s;"></span><span class="blk" style="animation-delay: 1.2s;"></span><span class="blk" style="animation-delay: 1.35s;"></span><span class="blk" style="animation-delay: 1.5s;"></span><span class="blk" style="animation-delay: 1.65s;"></span>
-            </div>
-          </div>
-          <h3 style="margin: 0; font-size: 21px; font-weight: 800;">Streaks &amp; milestones</h3>
-          <p style="margin: 0; color: #B5A797; line-height: 1.6;">Weekly reminders, check-in streaks and milestone badges keep you showing up.</p>
-        </article>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(255,255,255,0.05);">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#F2EDE8" stroke-width="1.8"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </div>
+          <div class="feature-title">Dark & Light Mode</div>
+          <p class="feature-body">Full system-level dark and light mode support. Looks sharp either way and respects your device setting automatically.</p>
+        </div>
 
-        <article class="rv card" style="padding: 28px; display: flex; flex-direction: column; gap: 18px;">
-          <div style="height: 140px; border-radius: 16px; background: linear-gradient(180deg, #FFA040, #E0610F); display: flex; align-items: center; justify-content: center;">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#1A0E04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="4" y="11" width="16" height="10" rx="3"/>
-              <path class="shackle" d="M8 11V8a4 4 0 018 0v3"/>
-            </svg>
-          </div>
-          <h3 style="margin: 0; font-size: 21px; font-weight: 800;">Private by default</h3>
-          <p style="margin: 0; color: #B5A797; line-height: 1.6;">Lock Morpha with Face ID. When you switch apps, a privacy cover hides your photos from the app switcher.</p>
-        </article>
-      </div>
-    </div>
-  </section>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(78,205,196,0.15);">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#4ECDC4" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div class="feature-title">No Account Required</div>
+          <p class="feature-body">No sign-up. No login. Everything lives on your device. Complete privacy by design, not by policy.</p>
+        </div>
 
-  <!-- GOAL PLANNER -->
-  <section id="plan" style="padding: 40px 0 120px;">
-    <div class="wrap">
-      <div class="rv card" style="padding: clamp(24px, 4vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px; background: linear-gradient(160deg, #1D140D, #13100D 60%);">
-        <div style="display: flex; flex-direction: column; gap: 22px;">
-          <p class="eyebrow">Goal planner</p>
-          <h2 class="disp" style="font-size: clamp(40px, 5vw, 64px);">Plan your<br><span class="grad">cut or bulk.</span></h2>
-          <p class="lead">Enter where you are, where you want to be and how long you'll give it. This is the same math Morpha uses inside the app.</p>
-          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;">
-            <div class="field"><label for="cw">Current weight (lb)</label><input id="cw" class="inp" type="number" inputmode="decimal" value="180"></div>
-            <div class="field"><label for="tw">Target weight (lb)</label><input id="tw" class="inp" type="number" inputmode="decimal" value="170"></div>
-            <div class="field"><label for="cbf">Current body fat %</label><input id="cbf" class="inp" type="number" inputmode="decimal" value="20"></div>
-            <div class="field"><label for="tbf">Target body fat %</label><input id="tbf" class="inp" type="number" inputmode="decimal" value="14"></div>
-          </div>
-          <div class="field">
-            <label for="wk">Duration: <span data-weeks>16</span> weeks</label>
-            <input id="wk" class="range" type="range" min="4" max="52" value="16">
-          </div>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 16px; justify-content: center;">
-          <div style="border-radius: 22px; padding: 28px; background: #0F0C0A; border: 1px solid #2A231D; display: flex; flex-direction: column; gap: 10px;">
-            <span style="font-size: 14px; font-weight: 700; color: #B5A797;"><span id="goalLabel"></span> · weekly weight change</span>
-            <span class="disp grad" style="font-size: clamp(56px, 7vw, 88px);" id="weeklyW">–</span>
-            <span style="font-size: 15px; color: #B5A797;">lb per week for <span data-weeks>16</span> weeks</span>
-            <span style="align-self: flex-start; margin-top: 6px; font-size: 13px; font-weight: 800; padding: 8px 14px; border-radius: 999px; background: #2A231D; color: #B5A797;" id="pace"></span>
-          </div>
-          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;">
-            <div style="border-radius: 18px; padding: 20px; background: #0F0C0A; border: 1px solid #2A231D; display: flex; flex-direction: column; gap: 4px;">
-              <span style="font-size: 13px; font-weight: 700; color: #B5A797;">Fat / week</span>
-              <span style="font-size: 28px; font-weight: 800;"><span id="weeklyF">–</span> lb</span>
-            </div>
-            <div style="border-radius: 18px; padding: 20px; background: #0F0C0A; border: 1px solid #2A231D; display: flex; flex-direction: column; gap: 4px;">
-              <span style="font-size: 13px; font-weight: 700; color: #B5A797;">Lean mass / week</span>
-              <span style="font-size: 28px; font-weight: 800;"><span id="weeklyL">–</span> lb</span>
-            </div>
-          </div>
-          <p style="margin: 0; font-size: 13px; color: #8F8276; line-height: 1.5;" id="note"></p>
-        </div>
-      </div>
-    </div>
-  </section>
+      </div>
+    </div>
+  </section>
 
-  <!-- PRICING -->
-  <section id="pricing" style="padding: 40px 0 120px;">
-    <div class="wrap" style="display: flex; flex-direction: column; gap: 48px;">
-      <div class="rv" style="display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center;">
-        <p class="eyebrow">Pricing</p>
-        <h2 class="disp" style="font-size: clamp(44px, 5.6vw, 76px);">Start free.<br><span class="grad">Go MAX.</span></h2>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; max-width: 920px; width: 100%; margin: 0 auto;">
-        <article class="rv card" style="padding: 36px; display: flex; flex-direction: column; gap: 24px;">
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <h3 style="margin: 0; font-size: 22px; font-weight: 800;">Free</h3>
-            <span class="disp" style="font-size: 56px;">$0</span>
-            <span style="color: #B5A797;">Everything you need to start</span>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 14px;">
-            <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>1 check-in per week (front, side &amp; back)</span>
-            <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Ghost pose camera &amp; 3:4 aligned photos</span>
-            <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Weight, body fat &amp; lean mass trends</span>
-            <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Apple Health sync</span>
-            <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Morph Reel (with watermark)</span>
-            <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Face ID lock</span>
-          </div>
-          <a class="btn btn-g" href="#download" style="margin-top: auto;">Download free</a>
-        </article>
+  <div class="divider"></div>
 
-        <article class="rv" style="padding: 2px; border-radius: 26px; background: linear-gradient(180deg, #FFA040, #E0610F); box-shadow: 0 30px 70px rgba(224, 97, 15, .28);">
-          <div style="height: 100%; border-radius: 24px; background: #1A120C; padding: 34px; display: flex; flex-direction: column; gap: 24px;">
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
-                <h3 style="margin: 0; font-size: 22px; font-weight: 800;">Morpha <span class="grad">MAX</span></h3>
-                <span style="font-size: 12px; font-weight: 800; padding: 6px 12px; border-radius: 999px; background: linear-gradient(180deg, #FFA040, #E0610F); color: #1A0E04;">MOST POPULAR</span>
-              </div>
-              <span class="disp" style="font-size: 56px;">[PRICE]</span>
-              <span style="color: #B5A797;">per month · cancel anytime</span>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 14px;">
-              <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Everything in Free</span>
-              <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Unlimited check-ins</span>
-              <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Morph Reel without watermark</span>
-              <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>6-month &amp; all-time trends</span>
-              <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Goal pace projections</span>
-              <span class="check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFA040" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Monthly recap</span>
-            </div>
-            <a class="btn btn-p" href="#download" style="margin-top: auto;">Get Morpha MAX</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
+  <!-- ── Support ── -->
+  <section class="support-section" id="support">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Support</p>
+        <h2 class="section-title">I've got you covered.</h2>
+        <p class="section-body">Found a bug, have a question, or want to suggest a feature? Reach out directly — I read and respond to every message personally.</p>
+        <p class="section-body">MacroMate is independently built and maintained by one person.</p>
+        <a href="mailto:contact.arise.app@gmail.com" class="contact-card">
+          <div class="contact-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="#E07A5F" stroke-width="1.8"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <div class="contact-text-label">Email</div>
+            <div class="contact-text-email">contact.arise.app@gmail.com</div>
+          </div>
+        </a>
+        <div class="response-note">
+          <span class="status-dot"></span>
+          Typical response within 2–3 business days
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- FINAL CTA -->
-  <section id="download" style="padding: 40px 0 120px;">
-    <div class="wrap">
-      <div class="rv" style="position: relative; overflow: hidden; border-radius: 36px; padding: clamp(40px, 7vw, 96px) clamp(24px, 5vw, 72px); background: linear-gradient(180deg, #FFA040, #E0610F); color: #1A0E04; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 26px;">
-        <svg viewBox="0 0 200 400" aria-hidden="true" style="position: absolute; left: -40px; bottom: -120px; height: 420px; opacity: .14;"><use href="#figAfter" fill="#1A0E04"/></svg>
-        <svg viewBox="0 0 200 400" aria-hidden="true" style="position: absolute; right: -40px; top: -100px; height: 420px; opacity: .14; transform: scaleX(-1);"><use href="#figAfter" fill="#1A0E04"/></svg>
-        <h2 class="disp" style="font-size: clamp(48px, 7vw, 100px); position: relative;">Your week 1<br>starts today.</h2>
-        <p style="margin: 0; font-size: 18px; font-weight: 600; max-width: 520px; line-height: 1.55; position: relative;">Take three photos. Come back in a week. Watch what the scale was hiding.</p>
-        <a class="btn" href="[APP STORE LINK]" style="background: #0D0B0A; color: #F4EDE6; position: relative;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.3 1.2 9.7.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg>
-          Download on the App Store</a>
-      </div>
-    </div>
-  </section>
+  <div class="divider"></div>
 
-  <!-- FOOTER -->
-  <footer style="border-top: 1px solid #221C17; padding: 40px 0 56px;">
-    <div class="wrap" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: flex-start;">
-      <div style="display: flex; flex-direction: column; gap: 10px; max-width: 460px;">
-        <span style="display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px;">
-          <span style="width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(180deg, #FFA040, #E0610F); display: flex; align-items: center; justify-content: center; color: #1A0E04; font-family: 'Anton', sans-serif; font-size: 18px;">M</span>Morpha</span>
-        <span style="font-size: 13px; color: #8F8276; line-height: 1.6;">Morpha shows trends and estimates from your own data. It is not a medical device and does not give medical advice.</span>
-      </div>
-      <div style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 14px;">
-        <a class="navlink" href="[PRIVACY LINK]">Privacy</a>
-        <a class="navlink" href="[TERMS LINK]">Terms</a>
-        <a class="navlink" href="mailto:[CONTACT EMAIL]">Contact</a>
-      </div>
-      <span style="width: 100%; font-size: 13px; color: #6E6258;">© 2026 Morpha. All rights reserved.</span>
-    </div>
-  </footer>
-</div>
+  <!-- ── FAQ ── -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title">Common questions.</h2>
+      </div>
+      <div class="faq-list reveal">
 
-<script>
-(function(){
-  var $=function(id){return document.getElementById(id)};
-  var cmp=$('cmp');
-  function setPos(){var p=cmp.value+'%';$('cmpAfter').style.clipPath='inset(0 0 0 '+p+')';$('cmpLine').style.left=p;$('cmpKnob').style.left=p;}
-  cmp.addEventListener('input',setPos);setPos();
-  function num(v){var n=parseFloat(String(v).replace(',','.'));return isNaN(n)?null:n}
-  function fmt(n){if(n===null||!isFinite(n))return '–';var r=Math.round(n*10)/10;if(r===0)return '0.0';return (r>0?'+':'−')+Math.abs(r).toFixed(1)}
-  function calc(){
-    var cw=num($('cw').value),tw=num($('tw').value),cbf=num($('cbf').value),tbf=num($('tbf').value),wk=Math.max(1,Number($('wk').value)||1);
-    var W=null,F=null,L=null,pace='Enter your numbers',bg='#2A231D',fg='#B5A797',goal='Your goal',note='Body fat inputs must be between 3% and 60%.';
-    if(cw&&tw&&cw>0&&tw>0){
-      W=(tw-cw)/wk;var pct=Math.abs(W)/cw*100;
-      if(tw<cw){goal='Lose fat';pace=pct<0.5?'Gentle pace':(pct<=1?'Recommended pace':'Aggressive pace');}
-      else if(tw>cw){goal='Build muscle';pace=pct<0.25?'Slow pace':(pct<=0.5?'Recommended pace':'Aggressive: likely extra fat');}
-      else{goal='Maintain';pace='Maintenance';}
-      if(pace==='Recommended pace'){bg='linear-gradient(180deg,#FFA040,#E0610F)';fg='#1A0E04';}
-      else if(pace.indexOf('Aggressive')===0){bg='#3A1E12';fg='#FFB48A';}
-      if(cbf!==null&&tbf!==null&&cbf>=3&&cbf<=60&&tbf>=3&&tbf<=60){
-        var cf=cw*cbf/100,tf=tw*tbf/100;F=(tf-cf)/wk;L=((tw-tf)-(cw-cf))/wk;
-        note='Recommended ranges: about 0.5–1% of body weight per week for fat loss, 0.25–0.5% for muscle gain. General guidance, not medical advice.';
-      }
-    }
-    $('weeklyW').textContent=fmt(W);$('weeklyF').textContent=fmt(F);$('weeklyL').textContent=fmt(L);
-    $('goalLabel').textContent=goal;$('note').textContent=note;
-    var p=$('pace');p.textContent=pace;p.style.background=bg;p.style.color=fg;
-    document.querySelectorAll('[data-weeks]').forEach(function(e){e.textContent=wk});
-  }
-  ['cw','tw','cbf','tbf','wk'].forEach(function(id){$(id).addEventListener('input',calc)});calc();
-})();
-</script>
-</body>
+        <div class="faq-item">
+          <button class="faq-question">
+            Does MacroMate work offline?
+            <svg class="faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer">Yes — completely. MacroMate has no internet requirement. All data is stored locally on your device so it works anywhere, anytime, with or without a connection.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I edit past entries?
+            <svg class="faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer">No — once a day ends at midnight, that day's entries are locked. This is intentional and keeps your tracking honest. Streaks and goal data stay accurate because past days can't be altered retroactively.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            What happens to my data if I delete the app?
+            <svg class="faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer">All data is stored on-device only. If you delete the app, your data is gone — there's no cloud backup. If you're switching phones, transfer your data first using your device's backup method.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Is there a free trial?
+            <svg class="faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer">No trial needed — MacroMate is a one-time $2.99 purchase. No subscription, no upsells, no features locked behind a paywall. Pay once and own it permanently.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            Does it use AI or suggest what I should eat?
+            <svg class="faq-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer">No. MacroMate contains zero AI, zero recommendations, and zero guessing. You enter your numbers. The app tracks them. It's built for people who already know what they're doing.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── Privacy ── -->
+  <section class="privacy-section" id="privacy">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Privacy Policy</p>
+        <h2 class="section-title">Your data stays yours.<br>Simple as that.</h2>
+        <p class="section-body">MacroMate was built with a zero-collection philosophy. I don't want your data — I want you to hit your macros.</p>
+      </div>
+
+      <div class="policy-grid reveal">
+        <div class="policy-item">
+          <div class="policy-item-header"><span class="policy-num">01</span><span class="policy-item-title">No Data Collection</span></div>
+          <p class="policy-item-body">MacroMate does not collect, transmit, or store any personal data on external servers. There is no account system, no analytics pipeline, and no data that could be sold even if I wanted to.</p>
+        </div>
+        <div class="policy-item">
+          <div class="policy-item-header"><span class="policy-num">02</span><span class="policy-item-title">On-Device Storage Only</span></div>
+          <p class="policy-item-body">Everything you log — macros, meals, water intake, goals, and streaks — lives entirely on your device. Uninstall the app and it's gone. No cloud, no servers, no trace.</p>
+        </div>
+        <div class="policy-item">
+          <div class="policy-item-header"><span class="policy-num">03</span><span class="policy-item-title">No Third-Party Sharing</span></div>
+          <p class="policy-item-body">I do not share, sell, rent, or transfer your information to any third parties, advertisers, or data brokers — because there is no information to share.</p>
+        </div>
+        <div class="policy-item">
+          <div class="policy-item-header"><span class="policy-num">04</span><span class="policy-item-title">No AI or Tracking</span></div>
+          <p class="policy-item-body">MacroMate contains no machine learning models, behavioral tracking, or usage analytics. Your patterns are your own. The app does not observe or learn from how you use it.</p>
+        </div>
+        <div class="policy-item">
+          <div class="policy-item-header"><span class="policy-num">05</span><span class="policy-item-title">Policy Updates</span></div>
+          <p class="policy-item-body">If this privacy policy ever changes in a meaningful way, it will be communicated through an app update notice. The current version is always available at this URL.</p>
+        </div>
+      </div>
+
+      <p class="policy-agree reveal">By continuing to use MacroMate, you acknowledge and agree to this privacy policy.</p>
+      <p class="policy-updated reveal">Last updated: August 2026 · Version 1.2.0</p>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-wordmark">MacroMate</span>
+          <span class="footer-tagline">Made for athletes who know what they're doing.</span>
+        </div>
+        <div class="footer-right">
+          <div class="footer-links">
+            <a href="#features">Features</a>
+            <a href="#support">Support</a>
+            <a href="#faq">FAQ</a>
+            <a href="#privacy">Privacy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">&copy; 2026 MacroMate. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script></body>
 </html>
